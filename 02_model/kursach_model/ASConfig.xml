@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<OSPFASConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="OSPF.xsd">
+
+  <!-- Single-area OSPF; area 0.0.0.0 -->
+  <Area id="0.0.0.0">
+  </Area>
+
+  <Router name="core" RFC1583Compatible="true">
+    <BroadcastInterface ifName="eth0" areaID="0.0.0.0" interfaceOutputCost="1" routerPriority="1" helloInterval="1s" routerDeadInterval="4s" />
+    <PointToPointInterface ifName="ppp0" areaID="0.0.0.0" interfaceOutputCost="5" helloInterval="1s" routerDeadInterval="4s" />
+    <PointToPointInterface ifName="ppp1" areaID="0.0.0.0" interfaceOutputCost="5" helloInterval="1s" routerDeadInterval="4s" />
+    <PointToPointInterface ifName="ppp2" areaID="0.0.0.0" interfaceOutputCost="10" helloInterval="1s" routerDeadInterval="4s" />
+    <PointToPointInterface ifName="ppp3" areaID="0.0.0.0" interfaceOutputCost="20" helloInterval="1s" routerDeadInterval="4s" />
+  </Router>
+
+  <Router name="br1R" RFC1583Compatible="true">
+    <BroadcastInterface ifName="eth0" areaID="0.0.0.0" interfaceOutputCost="1" routerPriority="1" helloInterval="1s" routerDeadInterval="4s" />
+    <PointToPointInterface ifName="ppp0" areaID="0.0.0.0" interfaceOutputCost="5" helloInterval="1s" routerDeadInterval="4s" />
+  </Router>
+
+  <Router name="br2R" RFC1583Compatible="true">
+    <BroadcastInterface ifName="eth0" areaID="0.0.0.0" interfaceOutputCost="1" routerPriority="1" helloInterval="1s" routerDeadInterval="4s" />
+    <PointToPointInterface ifName="ppp0" areaID="0.0.0.0" interfaceOutputCost="5" helloInterval="1s" routerDeadInterval="4s" />
+  </Router>
+
+  <Router name="isp" RFC1583Compatible="true">
+    <BroadcastInterface ifName="eth0" areaID="0.0.0.0" interfaceOutputCost="1" routerPriority="1" helloInterval="1s" routerDeadInterval="4s" />
+    <PointToPointInterface ifName="ppp0" areaID="0.0.0.0" interfaceOutputCost="10" helloInterval="1s" routerDeadInterval="4s" />
+    <PointToPointInterface ifName="ppp1" areaID="0.0.0.0" interfaceOutputCost="20" helloInterval="1s" routerDeadInterval="4s" />
+  </Router>
+
+</OSPFASConfig>

@@ -1,0 +1,46 @@
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/out/clang-debug/src/sim/any_ptr.o: \
+  any_ptr.cc \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/any_ptr.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/simkerneldefs.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/platdep/platdefs.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cexception.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/simtime_t.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/simtime.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/platdep/intlimits.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/errmsg.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/simutil.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cobject.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cvisitor.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/regmacros.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/onstartup.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cownedobject.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cnamedobject.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/stringutil.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/commondefs.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/commonutil.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/exception.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/any_ptr.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/pooledstring.h \
+  /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/stringpool.h
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/any_ptr.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/simkerneldefs.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/platdep/platdefs.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cexception.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/simtime_t.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/simtime.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/platdep/intlimits.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/errmsg.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/simutil.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cobject.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cvisitor.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/regmacros.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/onstartup.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cownedobject.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include/omnetpp/cnamedobject.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/stringutil.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/commondefs.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/commonutil.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/exception.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/any_ptr.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/pooledstring.h:
+/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/src/common/stringpool.h:

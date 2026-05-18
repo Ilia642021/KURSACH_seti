@@ -1,0 +1,21 @@
+<config>
+    <!-- Configure interfaces for core router -->
+    <interface hosts="core" names="ppp2" address="10.0.100.1" netmask="255.255.255.252"/>
+    <interface hosts="core" names="ppp3" address="10.0.100.5" netmask="255.255.255.252"/>
+    
+    <!-- Configure interfaces for ISP -->
+    <interface hosts="isp" names="ppp0" address="10.0.100.2" netmask="255.255.255.252"/>
+    <interface hosts="isp" names="ppp1" address="10.0.100.6" netmask="255.255.255.252"/>
+
+    <!-- Default routes for HQ Hosts -->
+    <route hosts="hqHost[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="core" interface="eth0"/>
+
+    <!-- Routes for Core Router to Internet via ISP -->
+    <!-- Primary route via ppp2 (Metric 10) -->
+    <route hosts="core" destination="KursachNetwork.inetHost" netmask="255.255.255.255" gateway="isp" interface="ppp2" metric="10"/>
+    <!-- Backup route via ppp3 (Metric 100) -->
+    <route hosts="core" destination="KursachNetwork.inetHost" netmask="255.255.255.255" gateway="isp" interface="ppp3" metric="100"/>
+
+    <!-- Fallback for everything else -->
+    <interface hosts="*" address="10.x.x.x" netmask="255.255.255.0"/>
+</config>

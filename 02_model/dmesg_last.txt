@@ -1,0 +1,50 @@
+[   38.963304] input: HDA Intel PCH Line as /devices/pci0000:00/0000:00:1f.3/sound/card0/input19
+[   38.963396] input: HDA Intel PCH Line Out as /devices/pci0000:00/0000:00:1f.3/sound/card0/input20
+[   38.963466] input: HDA Intel PCH Front Headphone as /devices/pci0000:00/0000:00:1f.3/sound/card0/input21
+[   38.984814] Bluetooth: hci0: RTL: fw version 0xdfc6d922
+[   39.863519] nvidia-gpu 0000:01:00.3: i2c timeout error e0000000
+[   39.863542] ucsi_ccg 0-0008: i2c_transfer failed -110
+[   39.863548] ucsi_ccg 0-0008: ucsi_ccg_init failed - -110
+[   39.863560] ucsi_ccg 0-0008: probe with driver ucsi_ccg failed with error -110
+[   40.276320] [drm] Initialized nvidia-drm 0.0.0 for 0000:01:00.0 on minor 1
+[   40.295987] nvidia 0000:01:00.0: vgaarb: deactivate vga console
+[   40.382551] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[   40.382555] Bluetooth: BNEP filters: protocol multicast
+[   40.382558] Bluetooth: BNEP socket layer initialized
+[   40.384109] Bluetooth: MGMT ver 1.23
+[   40.392936] NET: Registered PF_ALG protocol family
+[   40.419407] fbcon: nvidia-drmdrmfb (fb0) is primary device
+[   40.419410] fbcon: Deferring console take-over
+[   40.419414] nvidia 0000:01:00.0: [drm] fb0: nvidia-drmdrmfb frame buffer device
+[   40.495349] nvme nvme0: using unchecked data buffer
+[   40.523741] block nvme0n1: No UUID available providing old NGUID
+[   40.570940] NET: Registered PF_QIPCRTR protocol family
+[   40.983569] Realtek Internal NBASE-T PHY r8169-0-400:00: attached PHY driver (mii_bus:phy_addr=r8169-0-400:00, irq=MAC)
+[   41.152800] r8169 0000:04:00.0 enp4s0: Link is Down
+[   42.150508] workqueue: nv_drm_handle_hotplug_event [nvidia_drm] hogged CPU for >10000us 4 times, consider switching to WQ_UNBOUND
+[   44.810530] Bluetooth: RFCOMM TTY layer initialized
+[   44.810544] Bluetooth: RFCOMM socket layer initialized
+[   44.810555] Bluetooth: RFCOMM ver 1.11
+[   45.017830] r8169 0000:04:00.0 enp4s0: Link is Up - 1Gbps/Full - flow control off
+[   46.605291] vboxdrv: module verification failed: signature and/or required key missing - tainting kernel
+[   46.615953] vboxdrv: Found 8 processor cores/threads
+[   46.631677] vboxdrv: TSC mode is Invariant, tentative frequency 3302402602 Hz
+[   46.631682] vboxdrv: Successfully loaded version 7.0.16_Ubuntu r162802 (interface 0x00330004)
+[   46.642985] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+[   46.665120] VBoxNetFlt: Successfully started.
+[   46.672420] VBoxNetAdp: Successfully started.
+[   46.775558] kauditd_printk_skb: 126 callbacks suppressed
+[   46.775565] audit: type=1400 audit(1778351298.907:138): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/usr/bin/lxc-start" pid=1755 comm="apparmor_parser"
+[   46.788602] audit: type=1400 audit(1778351298.920:139): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/usr/bin/lxc-start" pid=1760 comm="apparmor_parser"
+[   46.804941] audit: type=1400 audit(1778351298.936:140): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="lxc-container-default" pid=1764 comm="apparmor_parser"
+[   46.804955] audit: type=1400 audit(1778351298.936:141): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="lxc-container-default-cgns" pid=1764 comm="apparmor_parser"
+[   46.804960] audit: type=1400 audit(1778351298.936:142): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="lxc-container-default-with-mounting" pid=1764 comm="apparmor_parser"
+[   46.804964] audit: type=1400 audit(1778351298.936:143): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="lxc-container-default-with-nesting" pid=1764 comm="apparmor_parser"
+[   46.804966] audit: type=1400 audit(1778351298.936:144): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="lxc-waydroid" pid=1764 comm="apparmor_parser"
+[   46.862167] audit: type=1400 audit(1778351298.993:145): apparmor="STATUS" operation="profile_load" profile="unconfined" name="docker-default" pid=1789 comm="apparmor_parser"
+[   47.085656] Initializing XFRM netlink socket
+[   59.613170] systemd-journald[514]: /var/log/journal/d84b4643dbd84ab1badc07217fe15631/user-1000.journal: Journal file uses a different sequence number ID, rotating.
+[  438.791709] audit: type=1400 audit(1778351690.653:146): apparmor="DENIED" operation="capable" class="cap" profile="cursor_sandbox" pid=4508 comm="newuidmap" capability=1  capname="dac_override"
+[  438.794064] audit: type=1400 audit(1778351690.655:147): apparmor="DENIED" operation="capable" class="cap" profile="cursor_sandbox" pid=4511 comm="newuidmap" capability=1  capname="dac_override"
+[  532.179038] audit: type=1400 audit(1778351784.041:148): apparmor="DENIED" operation="capable" class="cap" profile="cursor_sandbox" pid=6064 comm="newuidmap" capability=1  capname="dac_override"
+[  532.180690] audit: type=1400 audit(1778351784.043:149): apparmor="DENIED" operation="capable" class="cap" profile="cursor_sandbox" pid=6067 comm="newuidmap" capability=1  capname="dac_override"

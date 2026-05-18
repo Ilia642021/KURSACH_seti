@@ -1,0 +1,51 @@
+Manifest-Version: 1.0
+Created-By: Maven Archiver 3.6.1
+Build-Jdk-Spec: 17
+Bundle-ManifestVersion: 2
+Bundle-Name: Extensions Debug Plug-in
+Bundle-SymbolicName: com.python.pydev.debug; singleton:=true
+Bundle-Version: 11.0.3.202310301107
+Bundle-Activator: com.python.pydev.debug.DebugPlugin
+Bundle-Vendor: Brainwy Software Ltda
+Eclipse-BundleShape: dir
+Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.python.pydev
+ .ast;bundle-version="[11.0.3,11.0.4)",org.python.pydev.core;bundle-vers
+ ion="[11.0.3,11.0.4)",org.python.pydev;bundle-version="[11.0.3,11.0.4)"
+ ,org.python.pydev.debug;bundle-version="[11.0.3,11.0.4)",org.eclipse.de
+ bug.core,org.eclipse.core.resources,org.eclipse.debug.ui,org.junit;bund
+ le-version="4.0";resolution:=optional,org.python.pydev.shared_ui;bundle
+ -version="[11.0.3,11.0.4)",org.eclipse.ui.console
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: debug.jar
+Export-Package: com.python.pydev.debug.remote.client_api
+Automatic-Module-Name: com.python.pydev.debug
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=17))"
+
+Name: plugin.xml
+SHA-256-Digest: FHN7D7+SEH/Dwt3jKN8sfx+cF6FN4lDO/M+ChlXVCSY=
+
+Name: icons/term_debug_server.gif
+SHA-256-Digest: eY61NgrXIz3tAMYHWYPAXwrLbu2Op+CO/R+gyvYHwuY=
+
+Name: icons/attach_to_process.png
+SHA-256-Digest: SBkL8CZT+FWveijUkc6CmAQl3R2HhwCIQl5hNOeXf6Q=
+
+Name: LICENSE.TXT
+SHA-256-Digest: J75t01G5GT6rkY9hiDNA+yh/SDVMI+VNinfwannMATI=
+
+Name: icons/start_debug_server.gif
+SHA-256-Digest: ST0HjBEhrv7QxBKPag0D1xhSIyu7AhG7i23BhfH6bro=
+
+Name: META-INF/maven/org.python.pydev/com.python.pydev.debug/pom.xml
+SHA-256-Digest: 7zmtr/5Dgom1HM8qXGHD+huSc+u5XoL8Q3HPeW0StFg=
+
+Name: debug.jar
+SHA-256-Digest: SPyuLNhHvG6+/kgPoZN35NfOffpJa9bLgVJNALdwTB8=
+
+Name: META-INF/maven/org.python.pydev/com.python.pydev.debug/pom.propert
+ ies
+SHA-256-Digest: 6DY6NxU+FBc5QnFhZzKScS/+FJC63JqJuCTQYw+/Cyk=
+
+Name: icons/python.gif
+SHA-256-Digest: iqRq7VGZjaT8z5CESm4hDezu6cmkFN1rHzu3aEg25/I=
+

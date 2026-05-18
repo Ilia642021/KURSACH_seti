@@ -1,0 +1,37 @@
+# OMNeT++ temporary and result files
+*.vec
+*.sca
+*.vci
+*.pcap
+*.anf
+03_results/
+.cmdenv-log
+_out/
+results/
+temp/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.pytest_cache/
+
+# Large archives and binaries
+omnetpp-*.tgz
+omnetpp-*.tar.gz
+*.pdf
+*.zip
+*.7z
+*.rar
+
+# IDE files
+.vscode/
+.idea/
+.trae/
+*.swp
+*.swo
+.DS_Store

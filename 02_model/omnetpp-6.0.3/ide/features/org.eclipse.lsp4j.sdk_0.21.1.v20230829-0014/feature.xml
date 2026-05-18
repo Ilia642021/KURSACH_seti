@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (c) 2016-2021 TypeFox and others.
+
+   This program and the accompanying materials are made available under the
+   terms of the Eclipse Public License v. 2.0 which is available at
+   http://www.eclipse.org/legal/epl-2.0,
+   or the Eclipse Distribution License v. 1.0 which is available at
+   http://www.eclipse.org/org/documents/edl-v10.php.
+
+   SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+-->
+<feature
+      id="org.eclipse.lsp4j.sdk"
+      label="LSP4J SDK"
+      version="0.21.1.v20230829-0014"
+      provider-name="Eclipse LSP4J">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import plugin="com.google.gson" version="2.9.1" match="compatible"/>
+      <import plugin="org.eclipse.xtend.lib" version="2.10.0" match="compatible"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.lsp4j"
+         download-size="1105"
+         install-size="2733"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.source"
+         download-size="954"
+         install-size="2496"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.debug"
+         download-size="406"
+         install-size="1109"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.debug.source"
+         download-size="363"
+         install-size="1046"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.jsonrpc"
+         download-size="135"
+         install-size="283"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.jsonrpc.source"
+         download-size="87"
+         install-size="229"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.generator"
+         download-size="53"
+         install-size="126"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.generator.source"
+         download-size="58"
+         install-size="157"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.jsonrpc.debug"
+         download-size="27"
+         install-size="52"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.jsonrpc.debug.source"
+         download-size="21"
+         install-size="50"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.websocket.jakarta"
+         download-size="15"
+         install-size="25"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.websocket.jakarta.source"
+         download-size="12"
+         install-size="20"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.websocket"
+         download-size="15"
+         install-size="25"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.lsp4j.websocket.source"
+         download-size="12"
+         install-size="20"
+         version="0.21.1.v20230829-0012"
+         unpack="false"/>
+
+</feature>
