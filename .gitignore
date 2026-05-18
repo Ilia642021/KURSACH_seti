@@ -12,6 +12,7 @@ temp/
 *.log
 *.txt
 !03_results/*.txt
+03_results/log_*.txt
 !*.md
 
 # OMNeT++ / INET build artifacts
