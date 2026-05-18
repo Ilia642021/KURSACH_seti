@@ -73,19 +73,24 @@
 
 ## 7. Справочник файлов проекта
 
-### Ядро модели
-- `/home/dev/6_sem/KURSACH_seti/02_model/kursach_model/KursachNetwork.ned` — Описание топологии.
-- `/home/dev/6_sem/KURSACH_seti/02_model/kursach_model/omnetpp.ini` — Сценарии A, B, C, D.
+### Ядро модели и конфигурация
+- [KursachNetwork.ned](file:///home/dev/6_sem/KURSACH_seti/02_model/kursach_model/KursachNetwork.ned) — Описание топологии и иерархических модулей.
+- [omnetpp.ini](file:///home/dev/6_sem/KURSACH_seti/02_model/kursach_model/omnetpp.ini) — Основной файл конфигурации с описанием сценариев A, B, C, D.
+- [routing.xml](file:///home/dev/6_sem/KURSACH_seti/02_model/kursach_model/routing.xml) — Статическая маршрутизация и маски хостов.
+- [ASConfig.xml](file:///home/dev/6_sem/KURSACH_seti/02_model/kursach_model/ASConfig.xml) — Настройка протокола OSPF и зон маршрутизации.
+
+### Окружение и фреймворки (локально в 02_model)
+- [use_env.sh](file:///home/dev/6_sem/KURSACH_seti/02_model/use_env.sh) — Скрипт для настройки переменных окружения (`PATH`, `LD_LIBRARY_PATH`).
+- `02_model/inet4.5/` — Исходный код и библиотеки INET Framework (исключено из Git).
+- `02_model/omnetpp-6.0.3/` — Установленная среда моделирования OMNeT++ (исключено из Git).
 
 ### Результаты и Анализ
-- `/home/dev/6_sem/KURSACH_seti/03_results/charts/` — PNG-графики результатов (RTT, масштабируемость, отказ).
-- `/home/dev/6_sem/KURSACH_seti/03_results/full_analysis_report.txt` — Сводный текстовый отчет по всем сценариям.
-- `/home/dev/6_sem/KURSACH_seti/run_all_sims.sh` — Скрипт запуска симуляций.
+- [charts/](file:///home/dev/6_sem/KURSACH_seti/03_results/charts/) — PNG-графики результатов (RTT, масштабируемость, отказ).
+- [full_analysis_report.txt](file:///home/dev/6_sem/KURSACH_seti/03_results/full_analysis_report.txt) — Сводный текстовый отчет по всем сценариям.
+- [run_all_sims.sh](file:///home/dev/6_sem/KURSACH_seti/run_all_sims.sh) — Скрипт автоматизации запусков.
+- [run_analysis.sh](file:///home/dev/6_sem/KURSACH_seti/run_analysis.sh) — Скрипт для запуска Python-анализаторов.
 
 ### Документация и Отчет
-- `/home/dev/6_sem/KURSACH_seti/Full_Report.md` — Итоговый документ (20 страниц).
-- `/home/dev/6_sem/KURSACH_seti/04_report_pages/` — Исходные страницы отчета в Markdown.
-- `/home/dev/6_sem/KURSACH_seti/04_report_pages/Страница_16_Calc.md` — Детальные математические расчеты.
-
-### Окружение
-- `/home/dev/6_sem/KURSACH_seti/02_model/use_env.sh` — Скрипт настройки переменных окружения.
+- [Full_Report.md](file:///home/dev/6_sem/KURSACH_seti/Full_Report.md) — Итоговый документ пояснительной записки.
+- [04_report_pages/](file:///home/dev/6_sem/KURSACH_seti/04_report_pages/) — Исходные страницы отчета в Markdown.
+- [Страница_16_Calc.md](file:///home/dev/6_sem/KURSACH_seti/04_report_pages/Страница_16_Calc.md) — Детальные математические расчеты.
