@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Application
-Exec=/bin/bash --rcfile /home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/setenv
-Terminal=true
-Icon=/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/images/logo/logo128s.png
-Name=OMNeT++ 6.0.3 Shell
-Categories=Development
-

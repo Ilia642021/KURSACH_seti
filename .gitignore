@@ -4,16 +4,11 @@
 *.vci
 *.pcap
 *.anf
-03_results/omnetpp/
 .cmdenv-log
 _out/
 results/
 temp/
 *.log
-*.txt
-!03_results/*.txt
-03_results/log_*.txt
-!*.md
 
 # OMNeT++ / INET build artifacts
 *.so
@@ -37,8 +32,8 @@ ENV/
 .pytest_cache/
 
 # Large archives and binaries
-omnetpp-*.tgz
-omnetpp-*.tar.gz
+*.tgz
+*.tar.gz
 *.pdf
 *.zip
 *.7z
@@ -51,6 +46,39 @@ omnetpp-*.tar.gz
 *.swp
 *.swo
 .DS_Store
+.project
+.cproject
+.pydevproject
+.oppbuildspec
+.oppfeatures
+.oppfeaturestate
+.metadata/
+.qtenvrc
+
+# Project specific exclusions
+01_docs/downloads/
+02_model/
+!02_model/
+02_model/*
+!02_model/kursach_model/
+02_model/kursach_model/*
+!02_model/kursach_model/*.ini
+!02_model/kursach_model/*.ned
+!02_model/kursach_model/*.xml
+
+# Keep only necessary result files
+03_results/
+!03_results/
+03_results/*
+!03_results/*.md
+!03_results/*.txt
+!03_results/charts/
+03_results/charts/*
+!03_results/charts/*.png
+
+# Report files are usually MD, keep them
+!04_report/*.md
+!04_report_pages/*.md
 
 # Secrets and Tokens
 .github_token
