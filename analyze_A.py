@@ -1,64 +1,66 @@
 import re
 from pathlib import Path
 
-
+# Paths to results
 LOG_PATH = Path("/home/dev/6_sem/KURSACH_seti/03_results/log_A_Base.txt")
-VEC_PATH = Path("/home/dev/6_sem/KURSACH_seti/03_results/omnetpp/A_Base-0.vec")
 
-
-def find_rtt_vector_id(vec_text: str) -> int | None:
-    m = re.search(r"^vector\s+(\d+)\s+KursachNetwork\.hqHost\[0\]\.app\[0\]\s+rtt:vector\b", vec_text, re.MULTILINE)
-    return int(m.group(1)) if m else None
-
-
-def parse_rtt_ms_from_log(log_text: str) -> tuple[float | None, int]:
-    rtts = []
-    # Ищем строки: [INFO]  Ping reply #0 arrived, rtt=0.00085824
+def parse_rtt_by_type(log_text: str):
+    # We have 3 types of pings:
+    # 1. cab1.h1 -> hqSrv[0] (Internal) - RTT ~0.4ms
+    # 2. br1Host[0] -> hqSrv[1] (Branch to HQ) - RTT ~10.9ms
+    # 3. cab1.h2 -> inetHost (Internet) - RTT ~40.9ms
+    
+    internal_rtts = []
+    branch_rtts = []
+    internet_rtts = []
+    
+    # In the log, we can distinguish by the RTT value since they are very different
+    # Or by looking at the lines preceding the reply (but that's harder)
+    # Let's use RTT ranges:
+    # < 2ms -> Internal
+    # 5ms - 20ms -> Branch
+    # > 30ms -> Internet
+    
     matches = re.findall(r"Ping reply #\d+ arrived, rtt=([0-9.]+)", log_text)
     for m in matches:
-        rtts.append(float(m) * 1000.0)
-    
-    if not rtts:
-        return None, 0
-    return sum(rtts) / len(rtts), len(rtts)
+        rtt_ms = float(m) * 1000.0
+        if rtt_ms < 2.0:
+            internal_rtts.append(rtt_ms)
+        elif 5.0 <= rtt_ms < 25.0:
+            branch_rtts.append(rtt_ms)
+        elif rtt_ms >= 30.0:
+            internet_rtts.append(rtt_ms)
+            
+    return {
+        "internal": (sum(internal_rtts)/len(internal_rtts), len(internal_rtts)) if internal_rtts else (0,0),
+        "branch": (sum(branch_rtts)/len(branch_rtts), len(branch_rtts)) if branch_rtts else (0,0),
+        "internet": (sum(internet_rtts)/len(internet_rtts), len(internet_rtts)) if internet_rtts else (0,0),
+    }
 
+def main():
+    if not LOG_PATH.exists():
+        print(f"Error: {LOG_PATH} not found")
+        return
 
-def main() -> None:
     log_text = LOG_PATH.read_text(encoding="utf-8", errors="ignore")
-    # vec_text = VEC_PATH.read_text(encoding="utf-8", errors="ignore")
-
-    avg_rtt_ms, samples = parse_rtt_ms_from_log(log_text)
-
-    # Доказательства для Scenario A
-    proof_route_ppp2 = re.search(r"destination = 10\.0\.5\.2, output interface = ppp2", log_text)
-    proof_ping_send = re.search(r"Sending ping request #0", log_text)
-    proof_ping_reply = re.search(r"Ping reply #0 arrived", log_text)
-
-    ppp2_routes = len(re.findall(r"destination = 10\.0\.5\.2, output interface = ppp2", log_text))
-    ppp3_routes = len(re.findall(r"destination = 10\.0\.5\.2, output interface = ppp3", log_text))
-    ping_requests = len(re.findall(r"Sending ping request #", log_text))
-
-    print("=== Scenario A (Base) ===")
-    print(f"log: {LOG_PATH}")
-    print(f"vec: {VEC_PATH}")
-    print(f"RTT HQ->Server (hqHost[0], mean): {avg_rtt_ms:.4f} ms" if avg_rtt_ms is not None else "RTT HQ->Server: N/A")
-    print(f"RTT samples: {samples}")
-    print(f"Internet route via ppp2 count: {ppp2_routes}")
-    print(f"Internet route via ppp3 count: {ppp3_routes}")
-    print(f"Total ping requests in log: {ping_requests}")
-
-    print("\n--- Доказательства (Proofs) ---")
-    if proof_route_ppp2:
-        print(f"[OK] Маршрут через основной канал (ppp2) подтвержден:")
-        print(f"     Лог: {proof_route_ppp2.group(0)}")
-        print(f"     Объяснение: Пакеты до сервера 10.0.5.2 отправляются через интерфейс ppp2, как и положено в штатном режиме.")
+    rtts = parse_rtt_by_type(log_text)
     
-    if proof_ping_send and proof_ping_reply:
-        print(f"[OK] Обмен ICMP пакетами (Ping) активен:")
-        print(f"     Отправка: {proof_ping_send.group(0)}")
-        print(f"     Получение: {proof_ping_reply.group(0)}")
-        print(f"     Объяснение: Хосты успешно обмениваются данными с сервером с первых секунд работы приложений.")
-
+    # Check routes to 10.0.0.1 (inetHost)
+    ppp2_routes = len(re.findall(r"destination = 10\.0\.0\.1, output interface = ppp2", log_text))
+    ppp3_routes = len(re.findall(r"destination = 10\.0\.0\.1, output interface = ppp3", log_text))
+    
+    print("=== Scenario A (Base) ===")
+    print(f"Internal RTT (HQ): {rtts['internal'][0]:.4f} ms ({rtts['internal'][1]} samples)")
+    print(f"Branch-to-HQ RTT: {rtts['branch'][0]:.4f} ms ({rtts['branch'][1]} samples)")
+    print(f"Internet RTT: {rtts['internet'][0]:.4f} ms ({rtts['internet'][1]} samples)")
+    print(f"Internet routes via ppp2: {ppp2_routes}")
+    print(f"Internet routes via ppp3: {ppp3_routes}")
+    
+    print("\n--- Доказательства (Proofs) ---")
+    if ppp2_routes > 0:
+        print(f"[OK] Маршрут через основной канал (ppp2) подтвержден ({ppp2_routes} пакетов)")
+    if rtts['internet'][1] > 0:
+        print(f"[OK] Доступ к Internet подтвержден ({rtts['internet'][1]} ответов)")
 
 if __name__ == "__main__":
     main()

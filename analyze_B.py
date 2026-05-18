@@ -1,68 +1,46 @@
 import re
 from pathlib import Path
 
-
+# Paths to results
 LOG_PATH = Path("/home/dev/6_sem/KURSACH_seti/03_results/log_B_ReserveEnabled.txt")
-VEC_PATH = Path("/home/dev/6_sem/KURSACH_seti/03_results/omnetpp/B_ReserveEnabled-0.vec")
 
+def parse_rtt_by_type(log_text: str):
+    internal_rtts = []
+    branch_rtts = []
+    internet_rtts = []
+    matches = re.findall(r"Ping reply #\d+ arrived, rtt=([0-9.]+)", log_text)
+    for m in matches:
+        rtt_ms = float(m) * 1000.0
+        if rtt_ms < 2.0:
+            internal_rtts.append(rtt_ms)
+        elif 5.0 <= rtt_ms < 25.0:
+            branch_rtts.append(rtt_ms)
+        elif rtt_ms >= 30.0:
+            internet_rtts.append(rtt_ms)
+    return {
+        "internal": (sum(internal_rtts)/len(internal_rtts), len(internal_rtts)) if internal_rtts else (0,0),
+        "branch": (sum(branch_rtts)/len(branch_rtts), len(branch_rtts)) if branch_rtts else (0,0),
+        "internet": (sum(internet_rtts)/len(internet_rtts), len(internet_rtts)) if internet_rtts else (0,0),
+    }
 
-def find_rtt_vector_id(vec_text: str) -> int | None:
-    m = re.search(r"^vector\s+(\d+)\s+KursachNetwork\.hqHost\[0\]\.app\[0\]\s+rtt:vector\b", vec_text, re.MULTILINE)
-    return int(m.group(1)) if m else None
-
-
-def parse_rtt_ms(vec_text: str) -> tuple[float | None, int]:
-    vector_id = find_rtt_vector_id(vec_text)
-    if vector_id is None:
-        return None, 0
-
-    values = []
-    prefix = f"{vector_id}\t"
-    for line in vec_text.splitlines():
-        if line.startswith(prefix):
-            parts = line.split()
-            if len(parts) >= 4:
-                values.append(float(parts[3]) * 1000.0)
-
-    if not values:
-        return None, 0
-    return sum(values) / len(values), len(values)
-
-
-def main() -> None:
+def main():
+    if not LOG_PATH.exists(): return
     log_text = LOG_PATH.read_text(encoding="utf-8", errors="ignore")
-    vec_text = VEC_PATH.read_text(encoding="utf-8", errors="ignore")
-
-    avg_rtt_ms, samples = parse_rtt_ms(vec_text)
-
-    # Доказательства для Scenario B
-    proof_route_ppp2 = re.search(r"destination = 10\.0\.5\.2, output interface = ppp2", log_text)
-    proof_ospf_hello = re.search(r"OSPF Hello packet sent", log_text)
-
-    ppp2_routes = len(re.findall(r"destination = 10\.0\.5\.2, output interface = ppp2", log_text))
-    ppp3_routes = len(re.findall(r"destination = 10\.0\.5\.2, output interface = ppp3", log_text))
-    ping_requests = len(re.findall(r"Sending ping request #", log_text))
-
-    print("=== Scenario B (Reserve Enabled) ===")
-    print(f"log: {LOG_PATH}")
-    print(f"vec: {VEC_PATH}")
-    print(f"RTT HQ->Server (hqHost[0], mean): {avg_rtt_ms:.4f} ms" if avg_rtt_ms is not None else "RTT HQ->Server: N/A")
-    print(f"RTT samples: {samples}")
-    print(f"Internet route via ppp2 count: {ppp2_routes}")
-    print(f"Internet route via ppp3 count: {ppp3_routes}")
-    print(f"Total ping requests in log: {ping_requests}")
-
-    print("\n--- Доказательства (Proofs) ---")
-    if proof_route_ppp2:
-        print(f"[OK] Основной канал (ppp2) по-прежнему приоритетнее:")
-        print(f"     Лог: {proof_route_ppp2.group(0)}")
-        print(f"     Объяснение: Несмотря на наличие резервного канала ppp3, OSPF выбирает ppp2 как более оптимальный (cost 10 против 20).")
+    rtts = parse_rtt_by_type(log_text)
+    ppp2_routes = len(re.findall(r"destination = 10\.0\.0\.1, output interface = ppp2", log_text))
+    ppp3_routes = len(re.findall(r"destination = 10\.0\.0\.1, output interface = ppp3", log_text))
     
-    if proof_ospf_hello:
-        print(f"[OK] Протокол OSPF активен на резервном канале:")
-        print(f"     Лог: {proof_ospf_hello.group(0)}")
-        print(f"     Объяснение: Маршрутизатор отправляет Hello-пакеты через все активные интерфейсы, включая ppp3, поддерживая соседство.")
-
+    print("=== Scenario B (Reserve Enabled) ===")
+    print(f"Internal RTT (HQ): {rtts['internal'][0]:.4f} ms ({rtts['internal'][1]} samples)")
+    print(f"Branch-to-HQ RTT: {rtts['branch'][0]:.4f} ms ({rtts['branch'][1]} samples)")
+    print(f"Internet RTT: {rtts['internet'][0]:.4f} ms ({rtts['internet'][1]} samples)")
+    print(f"Internet routes via ppp2: {ppp2_routes}")
+    print(f"Internet routes via ppp3: {ppp3_routes}")
+    
+    print("\n--- Доказательства (Proofs) ---")
+    if ppp2_routes > 0:
+        print(f"[OK] Основной канал (ppp2) по-прежнему приоритетнее ({ppp2_routes} пакетов)")
+    print("Объяснение: OSPF выбирает ppp2 (cost 10) вместо ppp3 (cost 20) для доступа к 10.0.0.1.")
 
 if __name__ == "__main__":
     main()

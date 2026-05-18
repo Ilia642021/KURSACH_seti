@@ -111,6 +111,11 @@ network KursachNetwork
         cab5: Cabinet { @display("p=1100,400;bgb=200,200"); }
         cab6: Cabinet { @display("p=1100,600;bgb=200,200"); }
 
+        // Extra hosts for scaling (Scenario D)
+        extraHost[numHqHosts > 30 ? numHqHosts - 30 : 0]: StandardHost {
+            @display("i=device/pc;p=350,850,row,60;fillcolor=cyan");
+        }
+
         //
         // Branch 1
         //
@@ -151,6 +156,11 @@ network KursachNetwork
             cab4.ethg[i] <--> lanLink <--> hqSw.ethg++;
             cab5.ethg[i] <--> lanLink <--> hqSw.ethg++;
             cab6.ethg[i] <--> lanLink <--> hqSw.ethg++;
+        }
+
+        // Connect extra hosts for scaling
+        for i=0..(numHqHosts > 30 ? numHqHosts - 31 : -1) {
+            extraHost[i].ethg++ <--> lanLink <--> hqSw.ethg++;
         }
 
         // Servers (unchanged)

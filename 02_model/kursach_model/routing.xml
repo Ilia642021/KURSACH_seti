@@ -7,14 +7,35 @@
     <interface hosts="isp" names="ppp0" address="10.0.100.2" netmask="255.255.255.252"/>
     <interface hosts="isp" names="ppp1" address="10.0.100.6" netmask="255.255.255.252"/>
 
-    <!-- Default routes for HQ Hosts -->
-    <route hosts="hqHost[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="core" interface="eth0"/>
+    <!-- Default routes for HQ Hosts (Cabinets and Servers) -->
+    <route hosts="cab*.h* hqSrv* extraHost[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="core" interface="eth0"/>
+
+    <!-- Default routes for Branch 1 Hosts -->
+    <route hosts="br1Host[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="br1R" interface="eth0"/>
+
+    <!-- Default routes for Branch 2 Hosts -->
+    <route hosts="br2Host[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="br2R" interface="eth0"/>
+
+    <!-- Default route for Internet Host -->
+    <route hosts="inetHost" destination="0.0.0.0" netmask="0.0.0.0" gateway="isp" interface="eth0"/>
 
     <!-- Routes for Core Router to Internet via ISP -->
     <!-- Primary route via ppp2 (Metric 10) -->
     <route hosts="core" destination="KursachNetwork.inetHost" netmask="255.255.255.255" gateway="isp" interface="ppp2" metric="10"/>
     <!-- Backup route via ppp3 (Metric 100) -->
     <route hosts="core" destination="KursachNetwork.inetHost" netmask="255.255.255.255" gateway="isp" interface="ppp3" metric="100"/>
+
+    <!-- HQ LAN (Switch) -->
+    <interface hosts="cab*.h* hqSrv* core extraHost[*]" names="eth0" address="10.0.3.x" netmask="255.255.255.0"/>
+
+    <!-- Branch 1 LAN -->
+    <interface hosts="br1Host* br1R" names="eth0" address="10.0.4.x" netmask="255.255.255.0"/>
+
+    <!-- Branch 2 LAN -->
+    <interface hosts="br2Host* br2R" names="eth0" address="10.0.5.x" netmask="255.255.255.0"/>
+
+    <!-- Internet segment -->
+    <interface hosts="inetHost isp" names="eth0" address="10.0.0.x" netmask="255.255.255.0"/>
 
     <!-- Fallback for everything else -->
     <interface hosts="*" address="10.x.x.x" netmask="255.255.255.0"/>
