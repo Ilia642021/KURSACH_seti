@@ -4,13 +4,14 @@
 *.vci
 *.pcap
 *.anf
-03_results/
+03_results/omnetpp/
 .cmdenv-log
 _out/
 results/
 temp/
 *.log
 *.txt
+!03_results/*.txt
 !*.md
 
 # OMNeT++ / INET build artifacts

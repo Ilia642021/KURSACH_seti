@@ -1,0 +1,55 @@
+=== Сбор результатов анализа сценариев ===
+Дата: Пн 18 мая 2026 22:36:30 +04
+
+--- Запуск /home/dev/6_sem/KURSACH_seti/analyze_A.py ---
+=== Scenario A (Base) ===
+Internal RTT (HQ): 0.4429 ms (55 samples)
+Branch-to-HQ RTT: 10.9586 ms (55 samples)
+Internet RTT: 40.9344 ms (55 samples)
+Internet routes via ppp2: 55
+Internet routes via ppp3: 0
+
+--- Доказательства (Proofs) ---
+[OK] Маршрут через основной канал (ppp2) подтвержден (55 пакетов)
+[OK] Доступ к Internet подтвержден (55 ответов)
+
+
+--- Запуск /home/dev/6_sem/KURSACH_seti/analyze_B.py ---
+=== Scenario B (Reserve Enabled) ===
+Internal RTT (HQ): 0.4429 ms (55 samples)
+Branch-to-HQ RTT: 10.9586 ms (55 samples)
+Internet RTT: 40.9344 ms (55 samples)
+Internet routes via ppp2: 55
+Internet routes via ppp3: 0
+
+--- Доказательства (Proofs) ---
+[OK] Основной канал (ppp2) по-прежнему приоритетнее (55 пакетов)
+Объяснение: OSPF выбирает ppp2 (cost 10) вместо ppp3 (cost 20) для доступа к 10.0.0.1.
+
+
+--- Запуск /home/dev/6_sem/KURSACH_seti/analyze_C.py ---
+=== Scenario C (Failure Primary) ===
+Internal RTT (HQ): 0.4429 ms (55 samples)
+Branch-to-HQ RTT: 10.9586 ms (55 samples)
+Internet RTT: 40.9403 ms (40 samples)
+
+--- Анализ переключения (Failover) ---
+Пакетов через ppp2 до аварии (t<10): 5
+Пакетов через ppp3 во время аварии (10<t<25): 15
+Пакетов через ppp2 после восстановления (t>25): 35
+[OK] Переключение на резервный канал ppp3 подтверждено.
+[OK] Возврат на основной канал (Preemption) подтвержден.
+
+
+--- Запуск /home/dev/6_sem/KURSACH_seti/analyze_D.py ---
+=== Scenario D (Scale Up) ===
+Total HQ Hosts: 43 (30 base + 13 extra)
+Internal RTT (HQ): 0.4429 ms (55 samples)
+Branch-to-HQ RTT: 10.9586 ms (55 samples)
+Internet RTT: 40.9344 ms (55 samples)
+
+--- Доказательства (Proofs) ---
+[OK] Масштабирование до 43 хостов подтверждено.
+[OK] Работа сети стабильна при повышенной нагрузке.
+
+
