@@ -1,1 +1,0 @@
--O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DOMNETPPLIBS_IMPORT -DQUEUEING_EXPORT -I. -I/home/dev/6_sem/KURSACH_seti/02_model/omnetpp-6.0.3/include
