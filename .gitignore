@@ -10,6 +10,20 @@ _out/
 results/
 temp/
 *.log
+*.txt
+!*.md
+
+# OMNeT++ / INET build artifacts
+*.so
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+out/
+Makefile
+opp_lib_cache/
 
 # Python
 __pycache__/
@@ -35,3 +49,7 @@ omnetpp-*.tar.gz
 *.swp
 *.swo
 .DS_Store
+
+# Secrets and Tokens
+.github_token
+init_git.sh
