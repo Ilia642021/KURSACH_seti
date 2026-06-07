@@ -1,5 +1,5 @@
 === Сбор результатов анализа сценариев ===
-Дата: Вс 07 июн 2026 15:22:39 +04
+Дата: Вс 07 июн 2026 22:10:00 +04
 
 --- Запуск /home/dev/6_sem/KURSACH_seti/scripts/analyze_A.py ---
 === Scenario A (Base) ===
@@ -64,6 +64,7 @@ Shutdown events: 0
 Startup events: 0
 Primary link targeted shutdowns: 0
 Primary link targeted startups: 0
+OSPF Convergence Time: 2.117 s
 
 --- RTT / Delay ---
 Ping RTT mean: 0.843 ms
