@@ -70,14 +70,9 @@ ENV/
 !02_model/kursach_model/*.xml
 
 # Keep only necessary result files
-03_results/
-!03_results/
 03_results/*
-!03_results/*.md
-03_results/log_*.txt
 !03_results/full_analysis_report.txt
-03_results/*debug.txt
-03_results/*debug.log
+!03_results/*.md
 !03_results/charts/
 03_results/charts/*
 !03_results/charts/*.png
