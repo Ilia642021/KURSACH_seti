@@ -8,196 +8,280 @@ import inet.node.ospfv2.OspfRouter;
 network KursachNetwork
 {
     parameters:
-        int numHqHosts = default(30);
         int numBrHosts = default(2);
-        @display("bgb=1400,1000");   // enlarged canvas height
+        int numAdminHosts = default(4);
+        int numAccountingHosts = default(5);
+        int numDirectorHosts = default(2);
+        int numWarehouseHosts = default(7);
+        int numKitchenHosts = default(7);
+        int numHallHosts = default(5);
+        @display("bgb=1700,1080");
+
+        // Analytical coordinates for host groups
+        int bAdmin = 4;
+        int bAcc = 5;
+        int bDir = 2;
+        int bWar = 7;
+        int bKit = 7;
+        int bHall = 5;
+        int bBr = 2;
+
+        // Base coordinates (Top)
+        double adminBaseX = 310 - (bAdmin-1)*30;
+        double accBaseX = 310 - (bAcc-1)*30;
+        double dirBaseX = 585 - (bDir-1)*52.5;
+        double warBaseX = 960 - (bWar-1)*30;
+        double kitBaseX = 1295 - (bKit-1)*30;
+        double hallBaseX = 1345 - (bHall-1)*30;
+        double br1Y = 120 - (bBr-1)*30;
+        double br2Y = 260 - (bBr-1)*30;
+
+        // Extra coordinates (Sides/Bottom)
+        double adminExtraY = 480 - (numAdminHosts-bAdmin-1)*20;
+        double accExtraY = 745 - (numAccountingHosts-bAcc-1)*20;
+        double dirExtraY = 935 - (numDirectorHosts-bDir-1)*20;
+        double kitExtraY = 500 - (numKitchenHosts-bKit-1)*20;
+        double warExtraX = 960 - (numWarehouseHosts-bWar-1)*30;
+        double hallExtraX = 1345 - (numHallHosts-bHall-1)*30;
 
     types:
-        module Cabinet
-        {
-            gates:
-                inout ethg[5];
-            submodules:
-                h1: StandardHost { @display("p=50,50;i=device/pc;fillcolor=lightblue"); }
-                h2: StandardHost { @display("p=150,50;i=device/pc;fillcolor=lightblue"); }
-                h3: StandardHost { @display("p=100,100;i=device/pc;fillcolor=lightblue"); }
-                h4: StandardHost { @display("p=50,150;i=device/pc;fillcolor=lightblue"); }
-                h5: StandardHost { @display("p=150,150;i=device/pc;fillcolor=lightblue"); }
-            connections:
-                h1.ethg++ <--> { @display("m=white"); } <--> ethg++;
-                h2.ethg++ <--> { @display("m=white"); } <--> ethg++;
-                h3.ethg++ <--> { @display("m=white"); } <--> ethg++;
-                h4.ethg++ <--> { @display("m=white"); } <--> ethg++;
-                h5.ethg++ <--> { @display("m=white"); } <--> ethg++;
-        }
-
         channel lanLink extends ThruputMeteringChannel
         {
-            delay = 0.1ms;
+            delay = uniform(0.1ms, 0.2ms);
             datarate = 100Mbps;
+            thruputDisplayFormat = "u";
+        }
+
+        channel serverLanLink extends ThruputMeteringChannel
+        {
+            delay = uniform(0.05ms, 0.15ms);
+            datarate = 1Gbps;
             thruputDisplayFormat = "u";
         }
 
         channel wanLink extends ThruputMeteringChannel
         {
-            delay = 5ms;
+            delay = uniform(4ms, 6ms);
             datarate = 20Mbps;
             thruputDisplayFormat = "u";
         }
 
         channel internetPrimary extends ThruputMeteringChannel
         {
-            delay = 20ms;
+            delay = uniform(9ms, 11ms);
             datarate = 30Mbps;
             thruputDisplayFormat = "u";
         }
 
         channel internetReserve extends ThruputMeteringChannel
         {
-            delay = 10ms;
+            delay = uniform(18ms, 22ms);
             datarate = 30Mbps;
             thruputDisplayFormat = "u";
         }
 
     submodules:
-
         configurator: Ipv4NetworkConfigurator {
-            @display("p=150,50;is=s");
+            @display("p=120,40;is=s");
         }
 
         scenarioManager: ScenarioManager {
-            @display("p=150,120;is=s");
+            @display("p=120,100;is=s");
         }
 
-        //
-        // Internet segment
-        //
-        inetHost: StandardHost {
-            @display("i=device/cloud;p=270,100;fillcolor=lightgray");
+        externalResource: StandardHost {
+            @display("i=device/server;p=260,120;fillcolor=lightgray");
         }
 
         inetSw: EthernetSwitch {
-            @display("p=470,100");
+            @display("p=455,120");
         }
 
         isp: OspfRouter {
-            @display("i=device/router;p=750,100;fillcolor=orange");
+            @display("i=device/router;p=690,120;fillcolor=orange");
         }
 
-        //
-        // Core
-        //
         core: OspfRouter {
-            @display("i=device/router;p=750,250;fillcolor=yellow");
+            @display("i=device/router;p=860,260;fillcolor=yellow");
         }
 
-        //
-        // HQ
-        //
         hqSw: EthernetSwitch {
-            @display("p=750,550");   // centered between cabinets
+            @display("p=860,580");
         }
 
-        // Vertical server column (unchanged)
         hqSrv[2]: StandardHost {
-            @display("i=device/server;p=650,420,row,200;fillcolor=lightgreen");
+            @display("i=device/server;p=760,455,row,200;fillcolor=lightgreen");
         }
 
-        // ---------- Six cabinets (visual groups) ----------
-        cab1: Cabinet { @display("p=350,400;bgb=200,200"); }
-        cab2: Cabinet { @display("p=350,600;bgb=200,200"); }
-        cab3: Cabinet { @display("p=550,800;bgb=200,200"); }
-        cab4: Cabinet { @display("p=900,800;bgb=200,200"); }
-        cab5: Cabinet { @display("p=1100,400;bgb=200,200"); }
-        cab6: Cabinet { @display("p=1100,600;bgb=200,200"); }
-
-        // Extra hosts for scaling (Scenario D)
-        extraHost[numHqHosts > 30 ? numHqHosts - 30 : 0]: StandardHost {
-            @display("i=device/pc;p=350,850,row,60;fillcolor=cyan");
+        // --- ADMINISTRATION ---
+        adminSw: EthernetSwitch {
+            @display("p=310,480;i=device/switch");
+        }
+        adminPc[numAdminHosts > bAdmin ? bAdmin : numAdminHosts]: StandardHost {
+            @display("i=device/pc;p=$adminBaseX,380,row,60;fillcolor=lightblue");
+        }
+        adminExtra[numAdminHosts > bAdmin ? numAdminHosts - bAdmin : 0]: StandardHost {
+            @display("i=device/pc;p=210,$adminExtraY,column,40;fillcolor=lightblue");
         }
 
-        //
-        // Branch 1
-        //
+        // --- ACCOUNTING ---
+        accSw: EthernetSwitch {
+            @display("p=310,745;i=device/switch");
+        }
+        accPc[numAccountingHosts > bAcc ? bAcc : numAccountingHosts]: StandardHost {
+            @display("i=device/pc;p=$accBaseX,645,row,60;fillcolor=lightyellow");
+        }
+        accExtra[numAccountingHosts > bAcc ? numAccountingHosts - bAcc : 0]: StandardHost {
+            @display("i=device/pc;p=210,$accExtraY,column,40;fillcolor=lightyellow");
+        }
+
+        // --- DIRECTOR OFFICE ---
+        dirSw: EthernetSwitch {
+            @display("p=585,935;i=device/switch");
+        }
+        dirPc[numDirectorHosts > bDir ? bDir : numDirectorHosts]: StandardHost {
+            @display("i=device/pc;p=$dirBaseX,835,row,105;fillcolor=lightgray");
+        }
+        dirExtra[numDirectorHosts > bDir ? numDirectorHosts - bDir : 0]: StandardHost {
+            @display("i=device/pc;p=485,$dirExtraY,column,70;fillcolor=lightgray");
+        }
+
+        // --- WAREHOUSE ---
+        warSw: EthernetSwitch {
+            @display("p=960,935;i=device/switch");
+        }
+        warPc[numWarehouseHosts > bWar ? bWar : numWarehouseHosts]: StandardHost {
+            @display("i=device/pc;p=$warBaseX,835,row,60;fillcolor=tan");
+        }
+        warExtra[numWarehouseHosts > bWar ? numWarehouseHosts - bWar : 0]: StandardHost {
+            @display("i=device/pc;p=$warExtraX,1035,row,60;fillcolor=tan");
+        }
+
+        // --- KITCHEN ---
+        kitSw: EthernetSwitch {
+            @display("p=1295,500;i=device/switch");
+        }
+        kitPc[numKitchenHosts > bKit ? bKit : numKitchenHosts]: StandardHost {
+            @display("i=device/pc;p=$kitBaseX,400,row,60;fillcolor=lightcyan");
+        }
+        kitExtra[numKitchenHosts > bKit ? numKitchenHosts - bKit : 0]: StandardHost {
+            @display("i=device/pc;p=1395,$kitExtraY,column,40;fillcolor=lightcyan");
+        }
+
+        // --- SERVICE HALL ---
+        hallSw: EthernetSwitch {
+            @display("p=1345,860;i=device/switch");
+        }
+        hallPc[numHallHosts > bHall ? bHall : numHallHosts]: StandardHost {
+            @display("i=device/pc;p=$hallBaseX,760,row,60;fillcolor=palegreen");
+        }
+        hallExtra[numHallHosts > bHall ? numHallHosts - bHall : 0]: StandardHost {
+            @display("i=device/pc;p=$hallExtraX,960,row,60;fillcolor=palegreen");
+        }
+
+        // --- BRANCHES ---
         br1R: OspfRouter {
-            @display("i=device/router;p=1100,100;fillcolor=yellow");
+            @display("i=device/router;p=1175,120;fillcolor=yellow");
         }
 
         br1Sw: EthernetSwitch {
-            @display("p=1200,100");
+            @display("p=1295,120");
         }
 
         br1Host[numBrHosts]: StandardHost {
-            @display("i=device/pc;p=1320,80,col,60;fillcolor=lightblue");
+            @display("i=device/pc;p=1395,$br1Y,column,60;fillcolor=lightblue");
         }
 
-        //
-        // Branch 2
-        //
         br2R: OspfRouter {
-            @display("i=device/router;p=1100,250;fillcolor=yellow");
+            @display("i=device/router;p=1175,260;fillcolor=yellow");
         }
 
         br2Sw: EthernetSwitch {
-            @display("p=1200,250");
+            @display("p=1295,260");
         }
 
         br2Host[numBrHosts]: StandardHost {
-            @display("i=device/pc;p=1320,230,col,60;fillcolor=lightblue");
+            @display("i=device/pc;p=1395,$br2Y,column,60;fillcolor=lightblue");
         }
 
     connections allowunconnected:
+        // Admin connections
+        for i=0..sizeof(adminPc)-1 {
+            adminPc[i].ethg++ <--> lanLink <--> adminSw.ethg++;
+        }
+        for i=0..sizeof(adminExtra)-1 {
+            adminExtra[i].ethg++ <--> lanLink <--> adminSw.ethg++;
+        }
+        adminSw.ethg++ <--> lanLink <--> hqSw.ethg++;
 
-        // Connect all hosts from the six cabinets to hqSw
-        for i=0..4 {
-            cab1.ethg[i] <--> lanLink <--> hqSw.ethg++;
-            cab2.ethg[i] <--> lanLink <--> hqSw.ethg++;
-            cab3.ethg[i] <--> lanLink <--> hqSw.ethg++;
-            cab4.ethg[i] <--> lanLink <--> hqSw.ethg++;
-            cab5.ethg[i] <--> lanLink <--> hqSw.ethg++;
-            cab6.ethg[i] <--> lanLink <--> hqSw.ethg++;
+        // Accounting connections
+        for i=0..sizeof(accPc)-1 {
+            accPc[i].ethg++ <--> lanLink <--> accSw.ethg++;
+        }
+        for i=0..sizeof(accExtra)-1 {
+            accExtra[i].ethg++ <--> lanLink <--> accSw.ethg++;
+        }
+        accSw.ethg++ <--> lanLink <--> hqSw.ethg++;
+
+        // Director Office connections
+        for i=0..sizeof(dirPc)-1 {
+            dirPc[i].ethg++ <--> lanLink <--> dirSw.ethg++;
+        }
+        for i=0..sizeof(dirExtra)-1 {
+            dirExtra[i].ethg++ <--> lanLink <--> dirSw.ethg++;
+        }
+        dirSw.ethg++ <--> lanLink <--> hqSw.ethg++;
+
+        // Warehouse connections
+        for i=0..sizeof(warPc)-1 {
+            warPc[i].ethg++ <--> lanLink <--> warSw.ethg++;
+        }
+        for i=0..sizeof(warExtra)-1 {
+            warExtra[i].ethg++ <--> lanLink <--> warSw.ethg++;
+        }
+        warSw.ethg++ <--> lanLink <--> hqSw.ethg++;
+
+        // Kitchen connections
+        for i=0..sizeof(kitPc)-1 {
+            kitPc[i].ethg++ <--> lanLink <--> kitSw.ethg++;
+        }
+        for i=0..sizeof(kitExtra)-1 {
+            kitExtra[i].ethg++ <--> lanLink <--> kitSw.ethg++;
+        }
+        kitSw.ethg++ <--> lanLink <--> hqSw.ethg++;
+
+        // Service Hall connections
+        for i=0..sizeof(hallPc)-1 {
+            hallPc[i].ethg++ <--> lanLink <--> hallSw.ethg++;
+        }
+        for i=0..sizeof(hallExtra)-1 {
+            hallExtra[i].ethg++ <--> lanLink <--> hallSw.ethg++;
+        }
+        hallSw.ethg++ <--> lanLink <--> hqSw.ethg++;
+
+        for i=0..sizeof(hqSrv)-1 {
+            hqSrv[i].ethg++ <--> serverLanLink <--> hqSw.ethg++;
         }
 
-        // Connect extra hosts for scaling
-        for i=0..(numHqHosts > 30 ? numHqHosts - 31 : -1) {
-            extraHost[i].ethg++ <--> lanLink <--> hqSw.ethg++;
-        }
+        core.ethg++ <--> serverLanLink <--> hqSw.ethg++;
 
-        // Servers (unchanged)
-        for i=0..1 {
-            hqSrv[i].ethg++ <--> lanLink <--> hqSw.ethg++;
-        }
-
-        // Core uplink
-        core.ethg++ <--> lanLink <--> hqSw.ethg++;
-
-        //
-        // Branch 1 (unchanged)
-        //
-        for i=0..1 {
+        for i=0..sizeof(br1Host)-1 {
             br1Host[i].ethg++ <--> lanLink <--> br1Sw.ethg++;
         }
+
+        for i=0..sizeof(br2Host)-1 {
+            br2Host[i].ethg++ <--> lanLink <--> br2Sw.ethg++;
+        }
+
         br1R.ethg++ <--> lanLink <--> br1Sw.ethg++;
         br1R.pppg++ <--> wanLink <--> core.pppg++;
 
-        //
-        // Branch 2 (unchanged)
-        //
-        for i=0..1 {
-            br2Host[i].ethg++ <--> lanLink <--> br2Sw.ethg++;
-        }
         br2R.ethg++ <--> lanLink <--> br2Sw.ethg++;
         br2R.pppg++ <--> wanLink <--> core.pppg++;
 
-        //
-        // Internet edge (unchanged)
-        //
-        inetHost.ethg++ <--> lanLink <--> inetSw.ethg++;
+        externalResource.ethg++ <--> lanLink <--> inetSw.ethg++;
         isp.ethg++ <--> lanLink <--> inetSw.ethg++;
 
-        //
-        // ISP uplinks (unchanged)
-        //
         core.pppg++ <--> internetPrimary <--> isp.pppg++;
         core.pppg++ <--> internetReserve <--> isp.pppg++;
 }

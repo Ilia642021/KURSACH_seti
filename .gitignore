@@ -35,6 +35,8 @@ ENV/
 *.tgz
 *.tar.gz
 *.pdf
+!01_docs/Пример_отчета_товарища.pdf
+!Metodicheskie_rekomendatsii_k_KP_Akhmetshina_EG.pdf
 *.zip
 *.7z
 *.rar
@@ -60,6 +62,7 @@ ENV/
 02_model/
 !02_model/
 02_model/*
+!02_model/use_env.sh
 !02_model/kursach_model/
 02_model/kursach_model/*
 !02_model/kursach_model/*.ini
@@ -71,7 +74,10 @@ ENV/
 !03_results/
 03_results/*
 !03_results/*.md
-!03_results/*.txt
+03_results/log_*.txt
+!03_results/full_analysis_report.txt
+03_results/*debug.txt
+03_results/*debug.log
 !03_results/charts/
 03_results/charts/*
 !03_results/charts/*.png

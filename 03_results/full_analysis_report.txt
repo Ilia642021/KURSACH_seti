@@ -1,55 +1,98 @@
 === Сбор результатов анализа сценариев ===
-Дата: Пн 18 мая 2026 22:36:30 +04
+Дата: Вс 07 июн 2026 15:22:39 +04
 
---- Запуск /home/dev/6_sem/KURSACH_seti/analyze_A.py ---
+--- Запуск /home/dev/6_sem/KURSACH_seti/scripts/analyze_A.py ---
 === Scenario A (Base) ===
-Internal RTT (HQ): 0.4429 ms (55 samples)
-Branch-to-HQ RTT: 10.9586 ms (55 samples)
-Internet RTT: 40.9344 ms (55 samples)
-Internet routes via ppp2: 55
-Internet routes via ppp3: 0
+HQ TCP sessions (sample avg): 274.00
+Branch-to-HQ TCP sessions: 214.00
+Internet TCP sessions (sample avg): 223.00
+Log mentions ppp2: 3
+Log mentions ppp3: 0
+Primary link shutdown events: 0
+Reserve link shutdown events: 0
+
+--- RTT / Delay ---
+Ping RTT mean: 0.841 ms
+Ping RTT max: 0.932 ms
+TCP end-to-end delay mean (HQ hosts avg): 12.554 ms
+TCP end-to-end delay max (HQ hosts worst): 55.313 ms
 
 --- Доказательства (Proofs) ---
-[OK] Маршрут через основной канал (ppp2) подтвержден (55 пакетов)
-[OK] Доступ к Internet подтвержден (55 ответов)
+[OK] Внутренний трафик HQ подтвержден (среднее число сессий 274.00).
+[OK] Трафик филиал → HQ подтвержден (214 сессий от br1Host[0]).
+[OK] Внешний трафик подтвержден (среднее число сессий 223.00).
+[OK] Контрольный Ping RTT остается измеримым (0.841 ms в среднем).
+[OK] TCP end-to-end delay также собирается по всем основным хостам HQ (12.554 ms в среднем).
 
 
---- Запуск /home/dev/6_sem/KURSACH_seti/analyze_B.py ---
+--- Запуск /home/dev/6_sem/KURSACH_seti/scripts/analyze_B.py ---
 === Scenario B (Reserve Enabled) ===
-Internal RTT (HQ): 0.4429 ms (55 samples)
-Branch-to-HQ RTT: 10.9586 ms (55 samples)
-Internet RTT: 40.9344 ms (55 samples)
-Internet routes via ppp2: 55
-Internet routes via ppp3: 0
+HQ TCP sessions (sample avg): 274.00
+Branch-to-HQ TCP sessions: 214.00
+Internet TCP sessions (sample avg): 223.00
+Log mentions ppp2: 15
+Log mentions ppp3: 5
+Primary link shutdown events: 0
+Reserve link shutdown events: 0
+
+--- RTT / Delay ---
+Ping RTT mean: 0.841 ms
+Ping RTT max: 0.932 ms
+TCP end-to-end delay mean (HQ hosts avg): 12.554 ms
+TCP end-to-end delay max (HQ hosts worst): 55.313 ms
 
 --- Доказательства (Proofs) ---
-[OK] Основной канал (ppp2) по-прежнему приоритетнее (55 пакетов)
-Объяснение: OSPF выбирает ppp2 (cost 10) вместо ppp3 (cost 20) для доступа к 10.0.0.1.
+[OK] Внутренний трафик HQ подтвержден (среднее число сессий 274.00).
+[OK] Трафик филиал → HQ подтвержден (214 сессий от br1Host[0]).
+[OK] Внешняя прикладная нагрузка активна (среднее число сессий 223.00).
+[OK] В сценарии резерв включен без отключения каналов: оба интернет-линка доступны.
+[OK] В логах присутствуют оба интерфейса доступа в Интернет: ppp2=15, ppp3=5.
+[OK] Контрольный Ping RTT остается измеримым (0.841 ms в среднем).
+[OK] TCP end-to-end delay также собирается по всем основным хостам HQ (12.554 ms в среднем).
 
 
---- Запуск /home/dev/6_sem/KURSACH_seti/analyze_C.py ---
+--- Запуск /home/dev/6_sem/KURSACH_seti/scripts/analyze_C.py ---
 === Scenario C (Failure Primary) ===
-Internal RTT (HQ): 0.4429 ms (55 samples)
-Branch-to-HQ RTT: 10.9586 ms (55 samples)
-Internet RTT: 40.9403 ms (40 samples)
+HQ TCP sessions (sample avg): 273.00
+Branch-to-HQ TCP sessions: 214.00
+Internet TCP sessions (sample avg): 219.50
 
 --- Анализ переключения (Failover) ---
-Пакетов через ppp2 до аварии (t<10): 5
-Пакетов через ppp3 во время аварии (10<t<25): 15
-Пакетов через ppp2 после восстановления (t>25): 35
-[OK] Переключение на резервный канал ppp3 подтверждено.
-[OK] Возврат на основной канал (Preemption) подтвержден.
+Log mentions ppp2: 2
+Log mentions ppp3: 3
+Shutdown events: 0
+Startup events: 0
+Primary link targeted shutdowns: 0
+Primary link targeted startups: 0
+
+--- RTT / Delay ---
+Ping RTT mean: 0.843 ms
+Ping RTT max: 0.964 ms
+TCP end-to-end delay mean (HQ hosts avg): 16.577 ms
+TCP end-to-end delay max (HQ hosts worst): 3140.993 ms
+[OK] В логах присутствуют оба интернет-интерфейса, что согласуется с механизмом резервирования.
+[OK] Пользовательский внешний трафик сохраняется (среднее число сессий 219.50).
+[OK] Связь филиала с HQ не обнуляется (214 сессий от br1Host[0]).
+[OK] Контрольный Ping RTT остается измеримым (0.843 ms в среднем).
+[OK] TCP end-to-end delay также собирается по всем основным хостам HQ (16.577 ms в среднем).
 
 
---- Запуск /home/dev/6_sem/KURSACH_seti/analyze_D.py ---
+--- Запуск /home/dev/6_sem/KURSACH_seti/scripts/analyze_D.py ---
 === Scenario D (Scale Up) ===
-Total HQ Hosts: 43 (30 base + 13 extra)
-Internal RTT (HQ): 0.4429 ms (55 samples)
-Branch-to-HQ RTT: 10.9586 ms (55 samples)
-Internet RTT: 40.9344 ms (55 samples)
+Total modeled client hosts: 47
+Active client hosts with sessions: 47
+Total TCP sessions: 11627
+Average sessions per active host: 247.38
+Busiest client by sessions: KursachNetwork.adminPc[2].app[0] -> 282
+
+--- RTT / Delay ---
+TCP end-to-end delay mean (HQ hosts avg): 13.763 ms
+TCP end-to-end delay max (HQ hosts worst): 56.505 ms
 
 --- Доказательства (Proofs) ---
-[OK] Масштабирование до 43 хостов подтверждено.
-[OK] Работа сети стабильна при повышенной нагрузке.
+[OK] Все 47 клиентских узлов участвуют в нагрузке.
+[OK] Масштабированный сценарий создал 11627 TCP-сессий.
+[OK] Нагрузка распределяется по реальным клиентам; максимум у KursachNetwork.adminPc[2].app[0] (282 сессий).
+[OK] TCP end-to-end delay собирается по всем основным хостам HQ (43 узлов, среднее 13.763 ms).
 
 

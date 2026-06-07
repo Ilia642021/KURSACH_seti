@@ -1,42 +1,54 @@
 <config>
-    <!-- Configure interfaces for core router -->
-    <interface hosts="core" names="ppp2" address="10.0.100.1" netmask="255.255.255.252"/>
-    <interface hosts="core" names="ppp3" address="10.0.100.5" netmask="255.255.255.252"/>
+    <!-- HQ Nodes -->
+    <interface hosts="core" names="eth0" address="10.0.0.1" netmask="255.255.255.0"/>
+    <interface hosts="hqSrv[0]" names="eth0" address="10.0.0.10" netmask="255.255.255.0"/>
+    <interface hosts="hqSrv[1]" names="eth0" address="10.0.0.11" netmask="255.255.255.0"/>
     
-    <!-- Configure interfaces for ISP -->
-    <interface hosts="isp" names="ppp0" address="10.0.100.2" netmask="255.255.255.252"/>
-    <interface hosts="isp" names="ppp1" address="10.0.100.6" netmask="255.255.255.252"/>
+    <!-- All HQ PCs and Extra hosts in the same /24 subnet -->
+    <interface hosts="admin*[*] acc*[*] dir*[*] war*[*] kit*[*] hall*[*]" names="eth0" address="10.0.0.x" netmask="255.255.255.0"/>
 
-    <!-- Default routes for HQ Hosts (Cabinets and Servers) -->
-    <route hosts="cab*.h* hqSrv* extraHost[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="core" interface="eth0"/>
+    <!-- Branches -->
+    <interface hosts="br1R" names="eth0" address="10.0.70.1" netmask="255.255.255.0"/>
+    <interface hosts="br1Host[*]" names="eth0" address="10.0.70.x" netmask="255.255.255.0"/>
 
-    <!-- Default routes for Branch 1 Hosts -->
-    <route hosts="br1Host[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="br1R" interface="eth0"/>
+    <interface hosts="br2R" names="eth0" address="10.0.80.1" netmask="255.255.255.0"/>
+    <interface hosts="br2Host[*]" names="eth0" address="10.0.80.x" netmask="255.255.255.0"/>
 
-    <!-- Default routes for Branch 2 Hosts -->
-    <route hosts="br2Host[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="br2R" interface="eth0"/>
+    <!-- ISP and External Resource -->
+    <interface hosts="externalResource" names="eth0" address="10.0.90.10" netmask="255.255.255.0"/>
+    <interface hosts="isp" names="eth0" address="10.0.90.1" netmask="255.255.255.0"/>
 
-    <!-- Default route for Internet Host -->
-    <route hosts="inetHost" destination="0.0.0.0" netmask="0.0.0.0" gateway="isp" interface="eth0"/>
+    <!-- WAN PPP links -->
+    <interface hosts="core" names="ppp0" address="10.0.101.1" netmask="255.255.255.252"/>
+    <interface hosts="br1R" names="ppp0" address="10.0.101.2" netmask="255.255.255.252"/>
 
-    <!-- Routes for Core Router to Internet via ISP -->
-    <!-- Primary route via ppp2 (Metric 10) -->
-    <route hosts="core" destination="KursachNetwork.inetHost" netmask="255.255.255.255" gateway="isp" interface="ppp2" metric="10"/>
-    <!-- Backup route via ppp3 (Metric 100) -->
-    <route hosts="core" destination="KursachNetwork.inetHost" netmask="255.255.255.255" gateway="isp" interface="ppp3" metric="100"/>
+    <interface hosts="core" names="ppp1" address="10.0.102.1" netmask="255.255.255.252"/>
+    <interface hosts="br2R" names="ppp0" address="10.0.102.2" netmask="255.255.255.252"/>
 
-    <!-- HQ LAN (Switch) -->
-    <interface hosts="cab*.h* hqSrv* core extraHost[*]" names="eth0" address="10.0.3.x" netmask="255.255.255.0"/>
+    <interface hosts="core" names="ppp2" address="10.0.103.1" netmask="255.255.255.252"/>
+    <interface hosts="isp" names="ppp0" address="10.0.103.2" netmask="255.255.255.252"/>
 
-    <!-- Branch 1 LAN -->
-    <interface hosts="br1Host* br1R" names="eth0" address="10.0.4.x" netmask="255.255.255.0"/>
+    <interface hosts="core" names="ppp3" address="10.0.104.1" netmask="255.255.255.252"/>
+    <interface hosts="isp" names="ppp1" address="10.0.104.2" netmask="255.255.255.252"/>
 
-    <!-- Branch 2 LAN -->
-    <interface hosts="br2Host* br2R" names="eth0" address="10.0.5.x" netmask="255.255.255.0"/>
+    <!-- Default Gateways for Hosts -->
+    <route hosts="admin*[*] acc*[*] dir*[*] war*[*] kit*[*] hall*[*] hqSrv[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="10.0.0.1" interface="eth0"/>
+    <route hosts="br1Host[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="10.0.70.1" interface="eth0"/>
+    <route hosts="br2Host[*]" destination="0.0.0.0" netmask="0.0.0.0" gateway="10.0.80.1" interface="eth0"/>
+    <route hosts="externalResource" destination="0.0.0.0" netmask="0.0.0.0" gateway="10.0.90.1" interface="eth0"/>
 
-    <!-- Internet segment -->
-    <interface hosts="inetHost isp" names="eth0" address="10.0.0.x" netmask="255.255.255.0"/>
+    <!-- Failover Routes for Core Router (Internet Access) -->
+    <route hosts="core" destination="10.0.90.0" netmask="255.255.255.0" gateway="10.0.103.2" interface="ppp2" metric="10"/>
+    <route hosts="core" destination="10.0.90.0" netmask="255.255.255.0" gateway="10.0.104.2" interface="ppp3" metric="50"/>
 
-    <!-- Fallback for everything else -->
-    <interface hosts="*" address="10.x.x.x" netmask="255.255.255.0"/>
+    <!-- Failover Routes for ISP Router (Return path to HQ) -->
+    <route hosts="isp" destination="10.0.0.0" netmask="255.255.255.0" gateway="10.0.103.1" interface="ppp0" metric="10"/>
+    <route hosts="isp" destination="10.0.0.0" netmask="255.255.255.0" gateway="10.0.104.1" interface="ppp1" metric="50"/>
+
+    <!-- Core Router Internal Route -->
+    <route hosts="core" destination="10.0.0.0" netmask="255.255.255.0" interface="eth0"/>
+    
+    <!-- Branch Routes back to HQ -->
+    <route hosts="br1R" destination="10.0.0.0" netmask="255.255.255.0" gateway="10.0.101.1" interface="ppp0"/>
+    <route hosts="br2R" destination="10.0.0.0" netmask="255.255.255.0" gateway="10.0.102.1" interface="ppp0"/>
 </config>
