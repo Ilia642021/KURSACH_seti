@@ -56,5 +56,5 @@ python3 /scripts/generate_charts_v2.py
 ### 4. Просмотр структуры отчета
 Для быстрого просмотра оглавления, рисунков и таблиц в отчете:
 ```bash
-grep -nE "^(#|\*Рис\.|\*\*Таблица)" /home/dev/6_sem/KURSACH_seti/Full_Report.md
+grep -nE "^#|\*Рис\. [0-9]+\.[0-9]+|\*\*Таблица [0-9]+\.[0-9]+|\([0-9]+\.[0-9]+\)" /home/dev/6_sem/KURSACH_seti/Full_Report.md
 ```
