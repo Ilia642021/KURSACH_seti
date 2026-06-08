@@ -52,3 +52,9 @@ bash /scripts/run_analysis.sh
 # Генерация графиков
 python3 /scripts/generate_charts_v2.py
 ```
+
+### 4. Просмотр структуры отчета
+Для быстрого просмотра оглавления, рисунков и таблиц в отчете:
+```bash
+grep -nE "^(#|\*Рис\.|\*\*Таблица)" /home/dev/6_sem/KURSACH_seti/Full_Report.md
+```
