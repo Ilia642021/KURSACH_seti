@@ -185,7 +185,15 @@ def generate_protocol_hierarchy():
     # Сортировка по убыванию и вывод всех протоколов
     sorted_protos = sorted(proto_counts.items(), key=lambda x: x[1], reverse=True)
     total_pkts = sum(sizes)
-    summary = {label: f"{count} пкт ({count/total_pkts*100:.1f}%)" for label, count in sorted_protos}
+    
+    def format_pct_label(label, pct):
+        """Форматирует процент: 1 знак для TCP, 2 знака для остальных (особенно мелких)."""
+        if label == 'TCP':
+            return f"{pct:.1f}"
+        else:
+            return f"{pct:.2f}"
+
+    summary = {label: f"{count} пкт ({format_pct_label(label, count/total_pkts*100)}%)" for label, count in sorted_protos}
     log_data_summary(name, summary)
 
     setup_plot_style()
@@ -205,7 +213,8 @@ def generate_protocol_hierarchy():
         y = np.sin(np.deg2rad(ang))
         x = np.cos(np.deg2rad(ang))
         pct = sizes[i]/total_pkts*100
-        label_text = f"{labels[i]}\n({pct:.1f}%)"
+        # Используем хелпер для форматирования текста подписи
+        label_text = f"{labels[i]}\n({format_pct_label(labels[i], pct)}%)"
         label_data.append({
             'x': x, 'y': y, 'ang': ang, 'text': label_text, 'i': i
         })

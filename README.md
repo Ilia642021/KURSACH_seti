@@ -47,7 +47,7 @@ cd /home/dev/6_sem/KURSACH_seti/02_model/kursach_model && inet -u Qtenv omnetpp.
 ```bash
 # Запуск всех сценариев и сбор логов
 bash /scripts/run_all_sims.sh
-# Запуск Python-анализаторов 
+# Запуск Анализаторов 
 bash /scripts/run_analysis.sh
 # Генерация графиков
 python3 /scripts/generate_charts_v2.py
