@@ -359,7 +359,7 @@ seed-set = ${runnumber}
 **.tcp.mss = 800
 **.app[*].thinkTime = 0s
 **.app[*].idleInterval = 0.2s
-**.app[*].requestLength = 1000B
+**.app[*].requestLength = 800B
 **.app[*].replyLength = 5000B
 
 *.hqSw.numEthInterfaces = 12
