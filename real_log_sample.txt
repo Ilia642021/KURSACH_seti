@@ -1,0 +1,14 @@
+# Реальные строки из логов симуляции (Сценарий A_Base)
+# Эти строки заменяют синтетические заглушки, которые были в отчете.
+
+# 1. Пинг до внутреннего сервера HQ (минимальная задержка)
+KursachNetwork.adminPc[0].app[2]: reply of 56 bytes from 10.0.0.10 icmp_seq=0 ttl=32 time=0.850251669 msec (ping0-reply)
+
+# 2. Пинг из филиала в центральный офис (задержка через WAN линк)
+KursachNetwork.br1Host[0].app[1]: reply of 56 bytes from 10.0.0.11 icmp_seq=0 ttl=30 time=9.668514111 msec (ping0-reply)
+
+# 3. Пинг до внешнего ресурса в Интернет (максимальная задержка)
+KursachNetwork.accPc[4].app[1]: reply of 56 bytes from 10.0.90.10 icmp_seq=0 ttl=30 time=22.094060812 msec (ping0-reply)
+
+# 4. Запись из таблицы маршрутизации OSPF, подтверждающая использование интерфейса ppp2 (основной канал)
+(inet::ospfv2::Ospfv2RoutingTableEntry) O 10.0.103.2/32 gw:10.0.103.2  metric:10  if:ppp2 destType:Network pathType:IntraArea area:0.0.0.0
