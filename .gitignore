@@ -72,6 +72,7 @@ ENV/
 # Keep only necessary result files
 03_results/*
 !03_results/full_analysis_report.txt
+!03_results/new_stats_backup.txt
 !03_results/*.md
 !03_results/charts/
 03_results/charts/*
